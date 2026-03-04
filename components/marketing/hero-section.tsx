@@ -375,7 +375,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 50, scale: 0.96 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.8, ease: [0.19, 1, 0.22, 1] }}
-          style={{ width: '100%', maxWidth: '42rem' }}
+          style={{ width: '100%', maxWidth: '56rem' }}
         >
           <CasePreviewWidget />
         </motion.div>
@@ -533,251 +533,262 @@ function FloatingCards() {
 
 /* ── Live case preview widget ── */
 function CasePreviewWidget() {
-  const events = [
+  const EVENTS = [
     {
       date: 'Jan 14, 2024',
+      type: 'INCIDENT',
+      color: '#1A3A6B',
+      bg: 'rgba(26,58,107,0.09)',
       label: 'Rear-end collision — I-280 northbound, reported at scene',
-      type: 'incident' as const,
       source: 'Police_Report_2024-014.pdf · p.2',
       flag: null,
     },
     {
       date: 'Jan 14, 2024',
+      type: 'MEDICAL',
+      color: '#2D6B31',
+      bg: 'rgba(45,107,49,0.09)',
       label: 'ER admission — Memorial Hospital · Dx: L4-L5 disc herniation',
-      type: 'medical' as const,
       source: 'ER_Records_Memorial.pdf · p.7',
       flag: null,
     },
     {
-      date: 'Jan–Jul 2024',
+      date: 'Jan – Jul 2024',
+      type: '⚠ FLAGGED',
+      color: '#B8963E',
+      bg: 'rgba(184,150,62,0.12)',
       label: '6-month treatment gap — no documented follow-up care',
-      type: 'flag' as const,
-      source: 'AI analysis across 14 records',
-      flag: 'IME will argue gap breaks causation chain',
+      source: 'AI cross-analysis · 14 records',
+      flag: 'IME will argue this gap breaks the causation chain',
     },
     {
       date: 'Oct 3, 2024',
-      label: 'IME by Dr. Chen — disputes surgery necessity, cites gap',
-      type: 'dispute' as const,
+      type: 'DISPUTE',
+      color: '#4A52A0',
+      bg: 'rgba(74,82,160,0.09)',
+      label: 'IME — Dr. Chen disputes surgery necessity, cites treatment gap',
       source: 'IME_Report_Chen.pdf · p.12',
       flag: null,
     },
     {
       date: 'Dec 2, 2024',
-      label: 'Demand filed — $284,000 · Santa Clara Superior Court',
-      type: 'milestone' as const,
+      type: 'MILESTONE',
+      color: '#0A1020',
+      bg: 'rgba(10,16,32,0.07)',
+      label: 'Demand letter filed — $284,000 · Santa Clara Superior Court',
       source: 'Demand_Letter_Final.pdf · p.1',
       flag: null,
     },
-  ]
-
-  const TYPE = {
-    incident:  { dot: '#1A3A6B', badge: '#1A3A6B', bg: 'rgba(26,58,107,0.08)',   label: 'Incident'  },
-    medical:   { dot: '#2D6B31', badge: '#2D6B31', bg: 'rgba(45,107,49,0.08)',   label: 'Medical'   },
-    flag:      { dot: '#B8963E', badge: '#B8963E', bg: 'rgba(184,150,62,0.10)',  label: '⚠ Flag'    },
-    dispute:   { dot: '#4A52A0', badge: '#4A52A0', bg: 'rgba(74,82,160,0.09)',   label: 'Dispute'   },
-    milestone: { dot: '#0A1020', badge: '#0A1020', bg: 'rgba(10,16,32,0.07)',    label: 'Milestone' },
-  } as const
+  ] as const
 
   return (
     <div style={{
       background: '#FFFFFF',
-      border: '1px solid #E2E5EF',
-      borderRadius: 'var(--radius-xl)',
+      border: '1px solid #D8DCE8',
+      borderRadius: '14px',
       overflow: 'hidden',
-      boxShadow: '0 32px 72px rgba(10,16,32,0.13), 0 4px 20px rgba(10,16,32,0.07)',
+      boxShadow: '0 40px 100px rgba(10,16,32,0.18), 0 8px 32px rgba(10,16,32,0.09)',
     }}>
+
       {/* ── Window chrome ── */}
       <div style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '0.625rem 1rem',
-        background: '#0D1729',
-        borderBottom: '1px solid rgba(255,255,255,0.06)',
+        padding: '0.75rem 1.25rem',
+        background: '#060D1C',
       }}>
-        <div style={{ display: 'flex', gap: '0.3rem' }}>
-          {['#FF6058', '#FFBD2E', '#28CA42'].map(c => (
-            <div key={c} style={{ width: 8, height: 8, borderRadius: '50%', background: c, opacity: 0.9 }} />
+        <div style={{ display: 'flex', gap: '0.375rem' }}>
+          {['#FF5F57', '#FFBD2E', '#28C840'].map(c => (
+            <div key={c} style={{ width: 11, height: 11, borderRadius: '50%', background: c }} />
           ))}
         </div>
         <span style={{
-          fontFamily: 'var(--font-mono)', fontSize: '0.4375rem',
-          letterSpacing: '0.14em', textTransform: 'uppercase',
-          color: 'rgba(253,252,250,0.3)',
+          fontFamily: 'var(--font-mono)', fontSize: '0.5rem',
+          letterSpacing: '0.12em', textTransform: 'uppercase',
+          color: 'rgba(255,255,255,0.28)',
         }}>
-          Lawline · Case Intelligence
+          lawline · case intelligence · #24-pi-4821
         </span>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
           <motion.div
-            animate={{ opacity: [1, 0.3, 1] }}
-            transition={{ duration: 1.8, repeat: Infinity }}
-            style={{ width: 6, height: 6, borderRadius: '50%', background: '#4ADE80', boxShadow: '0 0 6px rgba(74,222,128,0.8)' }}
+            animate={{ opacity: [1, 0.25, 1] }}
+            transition={{ duration: 1.6, repeat: Infinity }}
+            style={{ width: 7, height: 7, borderRadius: '50%', background: '#4ADE80', boxShadow: '0 0 8px rgba(74,222,128,0.9)' }}
           />
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.375rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#4ADE80' }}>
-            Live
-          </span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.4375rem', color: '#4ADE80', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Live</span>
         </div>
       </div>
 
-      {/* ── Scan progress bar ── */}
-      <div style={{ background: '#0A1020', padding: '0.5rem 1rem', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.3rem' }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.4375rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(212,174,88,0.8)' }}>
-            ⚡ AI extracting from 847 pages · 6 documents
-          </span>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.4375rem', color: 'rgba(74,222,128,0.7)', letterSpacing: '0.06em' }}>42s</span>
-        </div>
-        <div style={{ height: 3, background: 'rgba(255,255,255,0.06)', borderRadius: 2, overflow: 'hidden' }}>
+      {/* ── Scan progress row ── */}
+      <div style={{ background: '#0D1729', padding: '0.625rem 1.25rem', display: 'flex', alignItems: 'center', gap: '1rem', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', color: 'rgba(212,174,88,0.8)', letterSpacing: '0.08em', whiteSpace: 'nowrap' }}>
+          ⚡ Parsing 847 pages across 6 documents
+        </span>
+        <div style={{ flex: 1, height: 4, background: 'rgba(255,255,255,0.07)', borderRadius: 4, overflow: 'hidden' }}>
           <motion.div
             initial={{ width: '0%' }}
             animate={{ width: '100%' }}
-            transition={{ duration: 2.4, delay: 0.6, ease: 'easeOut' }}
-            style={{ height: '100%', background: 'linear-gradient(90deg, #1A3A6B 0%, #B8963E 60%, #4ADE80 100%)', borderRadius: 2 }}
+            transition={{ duration: 2.6, delay: 0.5, ease: 'easeOut' }}
+            style={{ height: '100%', background: 'linear-gradient(90deg, #1A3A6B 0%, #B8963E 55%, #4ADE80 100%)', borderRadius: 4 }}
           />
-        </div>
-      </div>
-
-      {/* ── Damages callout strip ── */}
-      <div style={{
-        display: 'grid', gridTemplateColumns: '1fr 1fr 1fr',
-        background: '#F6F7FA',
-        borderBottom: '1px solid #E2E5EF',
-      }}>
-        {[
-          { val: '$284,000', sub: 'Damages extracted', accent: '#1A3A6B' },
-          { val: '42 events', sub: 'Source-linked', accent: '#2D6B31' },
-          { val: '3 flags', sub: 'Need review', accent: '#B8963E' },
-        ].map(({ val, sub, accent }) => (
-          <div key={val} style={{ padding: '0.5rem 0.875rem', borderRight: '1px solid #E2E5EF' }}>
-            <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.8125rem', fontWeight: 600, color: accent, letterSpacing: '-0.01em' }}>{val}</div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.375rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--color-faint)', marginTop: '0.1rem' }}>{sub}</div>
-          </div>
-        ))}
-      </div>
-
-      {/* ── Timeline ── */}
-      <div style={{ padding: '0.875rem 1rem 0.625rem' }}>
-        {events.map(({ date, label, type, source, flag }, i) => {
-          const cfg = TYPE[type]
-          const isLast = i === events.length - 1
-          return (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.2 + i * 0.15, duration: 0.4, ease: [0.19, 1, 0.22, 1] }}
-              style={{ display: 'flex', gap: '0.625rem', position: 'relative' }}
-            >
-              {/* Left: dot + connector line */}
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0, paddingTop: '0.25rem' }}>
-                <div style={{
-                  width: 10, height: 10, borderRadius: '50%',
-                  background: cfg.dot,
-                  border: `2px solid ${cfg.dot}`,
-                  boxShadow: type === 'flag' ? `0 0 8px ${cfg.dot}60` : 'none',
-                  flexShrink: 0,
-                  zIndex: 1,
-                }} />
-                {!isLast && (
-                  <div style={{ width: 1.5, flex: 1, minHeight: 16, background: 'linear-gradient(to bottom, #E2E5EF, #E2E5EF)', marginTop: 2 }} />
-                )}
-              </div>
-
-              {/* Right: content */}
-              <div style={{ flex: 1, paddingBottom: isLast ? 0 : '0.625rem' }}>
-                {/* Date + badge row */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.2rem', flexWrap: 'wrap' }}>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.4375rem', color: 'var(--color-faint)', letterSpacing: '0.07em', whiteSpace: 'nowrap' }}>
-                    {date}
-                  </span>
-                  <span style={{
-                    fontFamily: 'var(--font-mono)', fontSize: '0.375rem',
-                    letterSpacing: '0.08em', textTransform: 'uppercase',
-                    color: cfg.badge, background: cfg.bg,
-                    border: `1px solid ${cfg.badge}25`,
-                    padding: '0.075rem 0.375rem', borderRadius: 'var(--radius-pill)',
-                    whiteSpace: 'nowrap',
-                  }}>
-                    {cfg.label}
-                  </span>
-                </div>
-
-                {/* Event description */}
-                <p style={{
-                  fontFamily: 'var(--font-body)', fontSize: '0.78rem',
-                  color: type === 'milestone' ? 'var(--color-ink)' : type === 'flag' ? '#8B6E28' : 'var(--color-ink)',
-                  fontWeight: type === 'milestone' ? 600 : 400,
-                  lineHeight: 1.4, margin: '0 0 0.2rem',
-                }}>
-                  {label}
-                </p>
-
-                {/* Source citation */}
-                <span style={{
-                  fontFamily: 'var(--font-mono)', fontSize: '0.375rem',
-                  color: 'var(--color-faint)', letterSpacing: '0.05em',
-                  background: 'var(--color-cream)',
-                  border: '1px solid var(--color-warm-100)',
-                  padding: '0.075rem 0.375rem', borderRadius: '3px',
-                  display: 'inline-block',
-                }}>
-                  ↗ {source}
-                </span>
-
-                {/* AI flag detail */}
-                {flag && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    transition={{ delay: 1.2 + i * 0.15 + 0.2 }}
-                    style={{
-                      marginTop: '0.3rem',
-                      display: 'inline-flex', alignItems: 'center', gap: '0.25rem',
-                      fontFamily: 'var(--font-mono)', fontSize: '0.4rem',
-                      letterSpacing: '0.05em', color: '#8B6E28',
-                      background: 'rgba(184,150,62,0.08)',
-                      border: '1px solid rgba(184,150,62,0.25)',
-                      padding: '0.175rem 0.5rem', borderRadius: '3px',
-                    }}
-                  >
-                    ⚠ {flag}
-                  </motion.div>
-                )}
-              </div>
-            </motion.div>
-          )
-        })}
-      </div>
-
-      {/* ── Footer ── */}
-      <div style={{
-        padding: '0.5rem 1rem',
-        background: '#F6F7FA',
-        borderTop: '1px solid #E2E5EF',
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-      }}>
-        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-          {[
-            { dot: '#1A3A6B', label: '6 docs parsed' },
-            { dot: '#B8963E', label: '3 flags' },
-          ].map(({ dot, label }) => (
-            <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '0.275rem' }}>
-              <div style={{ width: 5, height: 5, borderRadius: '50%', background: dot }} />
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.375rem', color: 'var(--color-faint)', letterSpacing: '0.06em' }}>{label}</span>
-            </div>
-          ))}
         </div>
         <motion.span
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 3.2 }}
-          style={{
-            display: 'flex', alignItems: 'center', gap: '0.25rem',
-            fontFamily: 'var(--font-mono)', fontSize: '0.375rem',
-            color: '#2D6B31', letterSpacing: '0.06em',
-          }}
+          style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', color: '#4ADE80', letterSpacing: '0.07em', whiteSpace: 'nowrap' }}
         >
-          <span style={{ fontSize: '0.5625rem' }}>✓</span> Ready for export
+          42s ✓
         </motion.span>
+      </div>
+
+      {/* ── Main: dark sidebar + light timeline ── */}
+      <div style={{ display: 'grid', gridTemplateColumns: '192px 1fr' }}>
+
+        {/* LEFT: dark case overview sidebar */}
+        <div style={{
+          background: '#0A1020',
+          borderRight: '1px solid rgba(255,255,255,0.06)',
+          padding: '1.5rem 1.25rem',
+          display: 'flex',
+          flexDirection: 'column',
+        }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.4375rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: '0.625rem' }}>
+            Personal Injury
+          </div>
+
+          {/* Big damage number */}
+          <div style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 300, lineHeight: 1, color: '#D4AE58', letterSpacing: '-0.02em' }}>
+            $284,000
+          </div>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.4rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginTop: '0.25rem', marginBottom: '1.5rem' }}>
+            Est. demand
+          </div>
+
+          {/* Stats */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '1.25rem' }}>
+            {[
+              { val: '847', label: 'pages read', color: 'rgba(255,255,255,0.8)' },
+              { val: '42',  label: 'events found', color: 'rgba(255,255,255,0.8)' },
+              { val: '3',   label: 'flags raised', color: '#D4AE58' },
+              { val: '6',   label: 'docs parsed', color: 'rgba(255,255,255,0.8)' },
+            ].map(({ val, label, color }) => (
+              <div key={label} style={{ display: 'flex', flexDirection: 'column', gap: '0.1rem' }}>
+                <span style={{ fontFamily: 'var(--font-ui)', fontSize: '1.125rem', fontWeight: 600, color, lineHeight: 1 }}>{val}</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.4rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)' }}>{label}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Export ready */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 3.4 }}
+            style={{ marginTop: 'auto', paddingTop: '1.5rem', borderTop: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}
+          >
+            <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#4ADE80', boxShadow: '0 0 6px rgba(74,222,128,0.6)', flexShrink: 0 }} />
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.4rem', color: '#4ADE80', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+              Ready for export
+            </span>
+          </motion.div>
+        </div>
+
+        {/* RIGHT: timeline events */}
+        <div style={{ background: '#FFFFFF', padding: '1.5rem 1.5rem 1.25rem' }}>
+          {EVENTS.map(({ date, type, color, bg, label, source, flag }, i) => {
+            const isLast = i === EVENTS.length - 1
+            const isFlag = type.includes('FLAG')
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.9 + i * 0.18, duration: 0.5, ease: [0.19, 1, 0.22, 1] }}
+                style={{ display: 'flex', gap: '1rem', position: 'relative' }}
+              >
+                {/* Timeline track: dot + vertical line */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: 14, flexShrink: 0, paddingTop: 5 }}>
+                  <div style={{
+                    width: 12, height: 12, borderRadius: '50%', flexShrink: 0,
+                    background: isFlag ? 'transparent' : color,
+                    border: `2px solid ${color}`,
+                    boxShadow: isFlag ? `0 0 12px ${color}80` : 'none',
+                    zIndex: 1,
+                  }} />
+                  {!isLast && (
+                    <div style={{ width: 2, flex: 1, minHeight: 28, background: '#E8EAF2', marginTop: 3, borderRadius: 2 }} />
+                  )}
+                </div>
+
+                {/* Content */}
+                <div style={{ flex: 1, paddingBottom: isLast ? 0 : '1.25rem' }}>
+                  {/* Date + type badge */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.375rem', flexWrap: 'wrap' }}>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', color: '#8890A8', letterSpacing: '0.06em', whiteSpace: 'nowrap' }}>
+                      {date}
+                    </span>
+                    <span style={{
+                      fontFamily: 'var(--font-mono)', fontSize: '0.4375rem',
+                      letterSpacing: '0.09em', textTransform: 'uppercase',
+                      color, background: bg,
+                      border: `1px solid ${color}28`,
+                      padding: '0.125rem 0.5rem', borderRadius: '999px',
+                      fontWeight: 500,
+                    }}>
+                      {type}
+                    </span>
+                  </div>
+
+                  {/* Event label */}
+                  <p style={{
+                    fontFamily: 'var(--font-ui)',
+                    fontSize: '0.9rem',
+                    fontWeight: type === 'MILESTONE' ? 600 : isFlag ? 500 : 400,
+                    color: isFlag ? '#7A5A1E' : '#0D1729',
+                    lineHeight: 1.45,
+                    margin: '0 0 0.375rem',
+                  }}>
+                    {label}
+                  </p>
+
+                  {/* Source chip */}
+                  <span style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '0.25rem',
+                    fontFamily: 'var(--font-mono)', fontSize: '0.4375rem',
+                    color: '#8890A8', letterSpacing: '0.05em',
+                    background: '#F4F5F9', border: '1px solid #E2E5EF',
+                    padding: '0.2rem 0.5rem', borderRadius: '5px',
+                  }}>
+                    ↗ {source}
+                  </span>
+
+                  {/* AI flag warning */}
+                  {flag && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.9 + i * 0.18 + 0.3 }}
+                      style={{
+                        marginTop: '0.5rem',
+                        display: 'inline-flex', alignItems: 'flex-start', gap: '0.375rem',
+                        fontFamily: 'var(--font-ui)', fontSize: '0.75rem',
+                        fontWeight: 500,
+                        color: '#7A5A1E',
+                        background: 'rgba(184,150,62,0.08)',
+                        border: '1px solid rgba(184,150,62,0.3)',
+                        padding: '0.375rem 0.75rem', borderRadius: '6px',
+                        lineHeight: 1.4,
+                      }}
+                    >
+                      <span style={{ flexShrink: 0, marginTop: 1 }}>⚠</span>
+                      {flag}
+                    </motion.div>
+                  )}
+                </div>
+              </motion.div>
+            )
+          })}
+        </div>
       </div>
     </div>
   )

@@ -532,188 +532,255 @@ function FloatingCards() {
 /* ── Live case preview widget ── */
 function CasePreviewWidget() {
   const events = [
-    { date: 'Jan 12', label: 'Contract executed — Unit 4B lease agreement',  type: 'event',     ai: false },
-    { date: 'Mar 3',  label: 'First noise complaint filed by tenant',          type: 'issue',     ai: true  },
-    { date: 'Apr 17', label: 'Written notice issued by landlord — 30 days',   type: 'notice',    ai: true  },
-    { date: 'Jun 2',  label: 'Mediation session attempted — no resolution',   type: 'event',     ai: false },
-    { date: 'Jul 29', label: 'Lawsuit filed — Case #24-CV-8821',              type: 'milestone', ai: true  },
+    {
+      date: 'Jan 12, 2024',
+      time: '9:14 AM',
+      label: 'Contract executed — Unit 4B lease agreement signed by both parties',
+      type: 'contract' as const,
+      source: 'Lease_Agreement.pdf · p.1',
+      ai: false,
+      flag: null,
+    },
+    {
+      date: 'Mar 3, 2024',
+      time: '2:31 PM',
+      label: 'First noise complaint filed by tenant — written notice to landlord',
+      type: 'issue' as const,
+      source: 'Tenant_Complaint_001.pdf · p.2',
+      ai: true,
+      flag: null,
+    },
+    {
+      date: 'Apr 17, 2024',
+      time: '10:05 AM',
+      label: '30-day cure notice issued by landlord via certified mail',
+      type: 'notice' as const,
+      source: 'Landlord_Notice_Apr.pdf · p.1',
+      ai: true,
+      flag: '⚠ Tenant claims non-receipt — dispute flagged',
+    },
+    {
+      date: 'Jun 2, 2024',
+      time: '3:00 PM',
+      label: 'Mediation session attempted — no resolution reached',
+      type: 'event' as const,
+      source: 'Mediation_Notes.docx · p.4',
+      ai: false,
+      flag: null,
+    },
+    {
+      date: 'Jul 29, 2024',
+      time: '8:47 AM',
+      label: 'Lawsuit filed — Case #24-CV-8821 · Santa Clara Superior Court',
+      type: 'milestone' as const,
+      source: 'Complaint_Filed.pdf · p.1',
+      ai: true,
+      flag: null,
+    },
   ]
 
-  const typeConfig: Record<string, { color: string; bg: string }> = {
-    event:     { color: 'var(--color-muted)',   bg: 'var(--color-warm-100)' },
-    issue:     { color: '#B8963E',              bg: 'rgba(184,150,62,0.10)' },
-    notice:    { color: '#1A3A6B',              bg: 'rgba(26,58,107,0.08)' },
-    milestone: { color: '#0A1020',              bg: 'rgba(10,16,32,0.08)' },
-  }
+  const typeConfig = {
+    contract:  { color: '#1A3A6B', bar: '#1A3A6B', bg: 'rgba(26,58,107,0.08)',   label: 'Contract'  },
+    issue:     { color: '#B8963E', bar: '#B8963E', bg: 'rgba(184,150,62,0.10)',  label: 'Issue'     },
+    notice:    { color: '#4A52A0', bar: '#4A52A0', bg: 'rgba(74,82,160,0.09)',   label: 'Notice'    },
+    event:     { color: '#4A5578', bar: '#C5CADE', bg: 'rgba(74,85,120,0.06)',   label: 'Event'     },
+    milestone: { color: '#0A1020', bar: '#0A1020', bg: 'rgba(10,16,32,0.07)',    label: 'Milestone' },
+  } as const
 
   return (
-    <div
-      style={{
-        background: '#FFFFFF',
-        border: '1px solid #E2E5EF',
-        borderRadius: 'var(--radius-xl)',
-        overflow: 'hidden',
-        boxShadow: '0 24px 60px rgba(10,16,32,0.10), 0 4px 16px rgba(10,16,32,0.06)',
-        position: 'relative',
-      }}
-    >
-      {/* Top bar */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '0.875rem 1.25rem',
-          background: 'var(--color-ink)',
-          borderBottom: '1px solid rgba(255,255,255,0.06)',
-        }}
-      >
-        {/* Traffic lights */}
-        <div style={{ display: 'flex', gap: '0.375rem' }}>
-          {['#FF6B6B', '#FFB347', '#69D17A'].map(c => (
-            <div key={c} style={{ width: 10, height: 10, borderRadius: '50%', backgroundColor: c }} />
+    <div style={{
+      background: '#FFFFFF',
+      border: '1px solid #E2E5EF',
+      borderRadius: 'var(--radius-xl)',
+      overflow: 'hidden',
+      boxShadow: '0 32px 72px rgba(10,16,32,0.13), 0 4px 20px rgba(10,16,32,0.07)',
+      position: 'relative',
+    }}>
+      {/* ── Window chrome ── */}
+      <div style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '0.75rem 1.125rem',
+        background: '#0D1729',
+        borderBottom: '1px solid rgba(255,255,255,0.07)',
+      }}>
+        <div style={{ display: 'flex', gap: '0.35rem' }}>
+          {['#FF6058', '#FFBD2E', '#28CA42'].map(c => (
+            <div key={c} style={{ width: 9, height: 9, borderRadius: '50%', background: c }} />
           ))}
         </div>
-
-        <span
-          style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: '0.5625rem',
-            letterSpacing: '0.12em',
-            textTransform: 'uppercase',
-            color: 'rgba(253,252,250,0.5)',
-          }}
-        >
+        <span style={{
+          fontFamily: 'var(--font-mono)', fontSize: '0.5rem',
+          letterSpacing: '0.14em', textTransform: 'uppercase',
+          color: 'rgba(253,252,250,0.35)',
+        }}>
           Lawline · Case Intelligence
         </span>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
-          <span className="dot-live" />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
           <span style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: '0.5rem',
-            letterSpacing: '0.08em',
-            color: 'var(--color-sage-light)',
-            textTransform: 'uppercase',
-          }}>
+            display: 'inline-block', width: 6, height: 6, borderRadius: '50%',
+            background: '#4ADE80', boxShadow: '0 0 8px rgba(74,222,128,0.7)',
+          }} />
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.4375rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#4ADE80' }}>
             Live
           </span>
         </div>
       </div>
 
-      {/* AI processing bar */}
-      <div
-        style={{
-          padding: '0.625rem 1.25rem',
-          background: 'rgba(26,58,107,0.04)',
-          borderBottom: '1px solid rgba(26,58,107,0.08)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.625rem',
-        }}
-      >
-        <Cpu size={11} style={{ color: '#1A3A6B' }} />
-        <span style={{
-          fontFamily: 'var(--font-mono)',
-          fontSize: '0.5625rem',
-          letterSpacing: '0.08em',
-          textTransform: 'uppercase',
-          color: '#1A3A6B',
-        }}>
-          AI extracting events from 3 documents · 8.2s
+      {/* ── AI status bar ── */}
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: '0.625rem',
+        padding: '0.5rem 1.125rem',
+        background: 'rgba(26,58,107,0.04)',
+        borderBottom: '1px solid rgba(26,58,107,0.09)',
+      }}>
+        <Cpu size={10} style={{ color: '#1A3A6B', flexShrink: 0 }} />
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#1A3A6B' }}>
+          AI extracting events from 3 documents
         </span>
-        {/* Progress bar */}
-        <div style={{ flex: 1, height: 3, background: 'rgba(26,58,107,0.10)', borderRadius: 2, overflow: 'hidden' }}>
+        <div style={{ flex: 1, height: 2.5, background: 'rgba(26,58,107,0.10)', borderRadius: 2, overflow: 'hidden' }}>
           <motion.div
             initial={{ width: '0%' }}
-            animate={{ width: '78%' }}
-            transition={{ duration: 2, delay: 1.2, ease: 'easeOut' }}
-            style={{ height: '100%', background: '#1A3A6B', borderRadius: 2 }}
+            animate={{ width: '82%' }}
+            transition={{ duration: 2.2, delay: 1, ease: 'easeOut' }}
+            style={{ height: '100%', background: 'linear-gradient(90deg, #1A3A6B, #2456A4)', borderRadius: 2 }}
           />
+        </div>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.4375rem', color: 'rgba(26,58,107,0.55)', whiteSpace: 'nowrap' }}>
+          8.2s
+        </span>
+      </div>
+
+      {/* ── Category tab strip ── */}
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: 0,
+        padding: '0 1.125rem',
+        borderBottom: '1px solid var(--color-warm-100)',
+        background: '#FAFBFE',
+        overflowX: 'auto',
+      }}>
+        {(['All', 'Contract', 'Issue', 'Notice', 'Milestone'] as const).map((tab, i) => (
+          <div key={tab} style={{
+            fontFamily: 'var(--font-mono)', fontSize: '0.4375rem',
+            letterSpacing: '0.08em', textTransform: 'uppercase',
+            color: i === 0 ? '#1A3A6B' : 'var(--color-faint)',
+            padding: '0.5rem 0.75rem',
+            borderBottom: i === 0 ? '2px solid #1A3A6B' : '2px solid transparent',
+            whiteSpace: 'nowrap', cursor: 'pointer',
+          }}>
+            {tab}
+          </div>
+        ))}
+        <div style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: '0.4375rem', color: 'var(--color-faint)', letterSpacing: '0.06em', whiteSpace: 'nowrap', padding: '0.5rem 0' }}>
+          5 events · 3 docs
         </div>
       </div>
 
-      {/* Timeline */}
-      <div style={{ padding: '1.25rem 1.5rem' }}>
-        {events.map(({ date, label, type, ai }, i) => {
+      {/* ── Timeline events ── */}
+      <div style={{ padding: '0.875rem 0' }}>
+        {events.map(({ date, time, label, type, source, ai, flag }, i) => {
           const cfg = typeConfig[type]
           return (
             <motion.div
               key={i}
-              initial={{ opacity: 0, x: -12 }}
+              initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 1 + i * 0.12 }}
+              transition={{ delay: 1 + i * 0.13, duration: 0.35 }}
               style={{
                 display: 'flex',
-                gap: '0.875rem',
-                alignItems: 'flex-start',
-                paddingBottom: i < events.length - 1 ? '1.125rem' : 0,
+                gap: 0,
                 position: 'relative',
+                borderLeft: `3px solid ${cfg.bar}`,
+                marginLeft: '1.125rem',
+                marginBottom: i < events.length - 1 ? '0.125rem' : 0,
+                background: 'transparent',
+                transition: 'background 0.15s ease',
               }}
             >
               {/* Vertical connector */}
               {i < events.length - 1 && (
                 <div style={{
                   position: 'absolute',
-                  left: '3rem',
-                  top: '1.25rem',
-                  width: '1px',
-                  height: 'calc(100% - 0.25rem)',
-                  background: 'linear-gradient(to bottom, var(--color-warm-100), transparent)',
+                  left: -1,
+                  top: '100%',
+                  width: 1,
+                  height: '0.125rem',
+                  background: 'var(--color-warm-100)',
                 }} />
               )}
 
-              {/* Date */}
-              <span style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.5625rem',
-                color: 'var(--color-faint)',
-                whiteSpace: 'nowrap',
-                paddingTop: '0.2rem',
-                minWidth: '2.75rem',
-                letterSpacing: '0.04em',
-              }}>
-                {date}
-              </span>
+              <div style={{ padding: '0.625rem 0.875rem 0.625rem 0.75rem', flex: 1 }}>
+                {/* Top row: date + type badge + source */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem', flexWrap: 'wrap' }}>
+                  <span style={{
+                    fontFamily: 'var(--font-mono)', fontSize: '0.5rem',
+                    color: 'var(--color-faint)', letterSpacing: '0.06em', whiteSpace: 'nowrap',
+                  }}>
+                    {date}
+                  </span>
+                  <span style={{
+                    fontFamily: 'var(--font-mono)', fontSize: '0.375rem',
+                    color: 'rgba(136,144,168,0.6)', letterSpacing: '0.04em',
+                  }}>
+                    {time}
+                  </span>
+                  <span style={{
+                    fontFamily: 'var(--font-mono)', fontSize: '0.375rem',
+                    letterSpacing: '0.08em', textTransform: 'uppercase',
+                    color: cfg.color, background: cfg.bg,
+                    border: `1px solid ${cfg.color}22`,
+                    padding: '0.1rem 0.4rem', borderRadius: 'var(--radius-pill)',
+                  }}>
+                    {cfg.label}
+                  </span>
+                  {ai && (
+                    <span style={{
+                      fontFamily: 'var(--font-mono)', fontSize: '0.375rem',
+                      letterSpacing: '0.08em', textTransform: 'uppercase',
+                      color: '#1A3A6B', background: 'rgba(26,58,107,0.07)',
+                      border: '1px solid rgba(26,58,107,0.18)',
+                      padding: '0.1rem 0.4rem', borderRadius: 'var(--radius-pill)',
+                    }}>
+                      AI
+                    </span>
+                  )}
+                </div>
 
-              {/* Dot */}
-              <div style={{
-                width: 10,
-                height: 10,
-                borderRadius: '50%',
-                backgroundColor: cfg.color,
-                flexShrink: 0,
-                marginTop: '0.2rem',
-                boxShadow: `0 0 0 3px ${cfg.bg}`,
-              }} />
-
-              {/* Label + AI badge */}
-              <div style={{ flex: 1 }}>
-                <span style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize: '0.8125rem',
-                  color: 'var(--color-ink)',
-                  lineHeight: 1.4,
+                {/* Event label */}
+                <p style={{
+                  fontFamily: 'var(--font-body)', fontSize: '0.8rem',
+                  color: 'var(--color-ink)', lineHeight: 1.45,
+                  margin: '0 0 0.25rem',
+                  fontWeight: type === 'milestone' ? 500 : 400,
                 }}>
                   {label}
-                </span>
-                {ai && (
+                </p>
+
+                {/* Source cite */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
                   <span style={{
-                    display: 'inline-block',
-                    marginLeft: '0.5rem',
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '0.4375rem',
-                    letterSpacing: '0.08em',
-                    textTransform: 'uppercase',
-                    color: '#1A3A6B',
-                    background: 'rgba(26,58,107,0.07)',
-                    border: '1px solid rgba(26,58,107,0.18)',
-                    padding: '0.1rem 0.375rem',
-                    borderRadius: 'var(--radius-xs)',
-                    verticalAlign: 'middle',
+                    fontFamily: 'var(--font-mono)', fontSize: '0.4375rem',
+                    color: 'var(--color-faint)', letterSpacing: '0.05em',
+                    background: 'var(--color-cream)',
+                    border: '1px solid var(--color-warm-100)',
+                    padding: '0.1rem 0.4rem', borderRadius: '3px',
                   }}>
-                    AI
+                    ↗ {source}
                   </span>
+                </div>
+
+                {/* Flag (inconsistency warning) */}
+                {flag && (
+                  <div style={{
+                    marginTop: '0.375rem',
+                    display: 'inline-flex', alignItems: 'center', gap: '0.3rem',
+                    fontFamily: 'var(--font-mono)', fontSize: '0.4375rem',
+                    letterSpacing: '0.05em', color: '#B8963E',
+                    background: 'rgba(184,150,62,0.07)',
+                    border: '1px solid rgba(184,150,62,0.22)',
+                    padding: '0.2rem 0.5rem', borderRadius: 'var(--radius-sm)',
+                  }}>
+                    {flag}
+                  </div>
                 )}
               </div>
             </motion.div>
@@ -721,36 +788,32 @@ function CasePreviewWidget() {
         })}
       </div>
 
-      {/* Footer */}
+      {/* ── Footer ── */}
       <div style={{
-        padding: '0.875rem 1.5rem',
+        padding: '0.625rem 1.125rem',
         background: '#F6F7FA',
         borderTop: '1px solid #E2E5EF',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
       }}>
+        <div style={{ display: 'flex', gap: '0.875rem', alignItems: 'center' }}>
+          {[
+            { dot: '#1A3A6B', label: '3 docs parsed' },
+            { dot: '#B8963E', label: '1 flag' },
+          ].map(({ dot, label }) => (
+            <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+              <div style={{ width: 5, height: 5, borderRadius: '50%', background: dot }} />
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.4375rem', color: 'var(--color-faint)', letterSpacing: '0.06em' }}>
+                {label}
+              </span>
+            </div>
+          ))}
+        </div>
         <span style={{
-          fontFamily: 'var(--font-mono)',
-          fontSize: '0.5625rem',
-          color: 'var(--color-faint)',
-          textTransform: 'uppercase',
-          letterSpacing: '0.08em',
+          display: 'flex', alignItems: 'center', gap: '0.25rem',
+          fontFamily: 'var(--font-mono)', fontSize: '0.4375rem',
+          color: '#2D6B31', letterSpacing: '0.06em',
         }}>
-          5 events · 3 docs parsed
-        </span>
-        <span style={{
-          fontFamily: 'var(--font-mono)',
-          fontSize: '0.5625rem',
-          color: '#B8963E',
-          textTransform: 'uppercase',
-          letterSpacing: '0.08em',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.3rem',
-        }}>
-          <span>✓</span>
-          Ready for export
+          <span style={{ fontSize: '0.625rem' }}>✓</span> Ready for export
         </span>
       </div>
     </div>

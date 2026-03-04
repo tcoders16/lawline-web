@@ -117,6 +117,7 @@ html {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 body {
@@ -125,6 +126,7 @@ body {
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.625;
+  overflow-x: hidden;
 }
 
 ::selection {
@@ -664,6 +666,11 @@ body {
   padding: 8rem 2rem;
 }
 
+/* Section padding medium */
+.section-pad-md {
+  padding: 6rem 2rem;
+}
+
 /* Modal pricing tiers — 3 col, collapse on mobile */
 .grid-modal-tiers {
   display: grid;
@@ -671,22 +678,61 @@ body {
   gap: 0.75rem;
 }
 
-/* ── Responsive: Tablet ≤1024px ───────────── */
-@media (max-width: 1024px) {
-  .grid-features {
-    grid-template-columns: repeat(2, 1fr);
-  }
+/* 2-col responsive grid */
+.grid-2col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
 }
 
-/* ── Responsive: Mobile ≤768px ───────────── */
+/* 3-col responsive grid */
+.grid-3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+/* 4-col responsive grid */
+.grid-4col {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+/* Agents page grid */
+.grid-agents {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.25rem;
+}
+
+/* Responsive flex row → col */
+.flex-col-mobile {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* ── Responsive: Tablet ≤1024px ───────────── */
+@media (max-width: 1024px) {
+  .grid-features { grid-template-columns: repeat(2, 1fr); }
+  .grid-3col     { grid-template-columns: repeat(2, 1fr); }
+  .grid-4col     { grid-template-columns: repeat(2, 1fr); }
+  .hero-section-pad { padding: 7rem 2rem 4.5rem; }
+  .section-pad-lg   { padding: 6.5rem 2rem; }
+  .section-pad-md   { padding: 5rem 2rem; }
+  .section-pad      { padding: 5.5rem 2rem; }
+}
+
+/* ── Responsive: Large Mobile ≤768px ─────── */
 @media (max-width: 768px) {
+  /* Prevent overflow */
+  section { overflow-x: hidden; }
+
   /* Navbar */
-  .nav-desktop-only {
-    display: none !important;
-  }
-  .nav-mobile-only {
-    display: flex !important;
-  }
+  .nav-desktop-only { display: none !important; }
+  .nav-mobile-only  { display: flex !important; }
 
   /* Stats — 2x2 grid */
   .grid-stats {
@@ -697,19 +743,18 @@ body {
     border-right: 1px solid var(--color-warm-100);
     border-bottom: 1px solid var(--color-warm-100);
   }
-  .stat-col:nth-child(2n) { border-right: none; }
+  .stat-col:nth-child(2n)   { border-right: none; }
   .stat-col:nth-child(3),
-  .stat-col:nth-child(4) { border-bottom: none; }
+  .stat-col:nth-child(4)    { border-bottom: none; }
 
-  /* Steps — single column */
-  .grid-steps {
-    grid-template-columns: 1fr;
-  }
-
-  /* Features — single column */
-  .grid-features {
-    grid-template-columns: 1fr;
-  }
+  /* Grids — single column */
+  .grid-steps    { grid-template-columns: 1fr; }
+  .grid-features { grid-template-columns: 1fr; }
+  .grid-2col     { grid-template-columns: 1fr; }
+  .grid-3col     { grid-template-columns: 1fr; }
+  .grid-4col     { grid-template-columns: repeat(2, 1fr); }
+  .grid-agents   { grid-template-columns: 1fr; }
+  .grid-modal-tiers { grid-template-columns: 1fr; }
 
   /* Footer — stacked */
   .grid-footer-cols {
@@ -717,18 +762,41 @@ body {
     gap: 2rem;
   }
 
-  /* Hero padding tighter */
-  .hero-section-pad {
-    padding: 6rem 1.25rem 4rem;
-  }
+  /* Flex → column */
+  .flex-col-mobile { flex-direction: column; }
 
-  /* Section padding tighter */
-  .section-pad-lg {
-    padding: 5rem 1.25rem;
-  }
+  /* Padding */
+  .hero-section-pad { padding: 5.5rem 1.25rem 3.5rem; }
+  .section-pad-lg   { padding: 4.5rem 1.25rem; }
+  .section-pad-md   { padding: 3.5rem 1.25rem; }
+  .section-pad      { padding: 4rem 1.25rem; }
 
   /* Mobile nav header */
-  .navbar-header {
-    padding: 1rem 1.25rem !important;
+  .navbar-header { padding: 1rem 1.25rem !important; }
+}
+
+/* ── Responsive: Small Mobile ≤480px ─────── */
+@media (max-width: 480px) {
+  .hero-section-pad { padding: 5rem 1rem 3rem; }
+  .section-pad-lg   { padding: 3.5rem 1rem; }
+  .section-pad-md   { padding: 3rem 1rem; }
+  .section-pad      { padding: 3rem 1rem; }
+  .grid-4col        { grid-template-columns: 1fr; }
+  .grid-stats       { grid-template-columns: repeat(2, 1fr); }
+  .stat-col         { padding: 1.5rem 1rem; }
+  .grid-footer-cols { gap: 1.5rem; }
+  .grid-agents      { grid-template-columns: 1fr; }
+}
+
+/* ── Safe Area Insets (notched iPhones) ──── */
+@supports (padding: max(0px)) {
+  @media (max-width: 768px) {
+    .hero-section-pad,
+    .section-pad,
+    .section-pad-lg,
+    .section-pad-md {
+      padding-left:  max(1.25rem, env(safe-area-inset-left));
+      padding-right: max(1.25rem, env(safe-area-inset-right));
+    }
   }
 }

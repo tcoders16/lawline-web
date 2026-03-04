@@ -7,11 +7,13 @@ import { Menu, X, ChevronDown } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useApp } from '@/components/providers/app-providers'
 import { AgentHubDropdown } from '@/components/layout/agent-hub-dropdown'
+import { LawlineLogo } from '@/components/ui/lawline-logo'
 
 const ANNOUNCEMENT_BAR_HEIGHT = 40 /* px — matches the bar's rendered height */
 
 const NAV_LINKS = [
   { label: 'Home',     href: '/' },
+  { label: 'Agents',   href: '/agents' },
   { label: 'Pricing',  href: '/pricing' },
   { label: 'Insights', href: '/insights' },
 ] as const
@@ -55,43 +57,8 @@ export function SiteNavbar() {
           transition: 'padding 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
         }}>
         {/* Logo */}
-        <Link
-          href="/"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.75rem',
-            textDecoration: 'none',
-            flexShrink: 0,
-          }}
-        >
-          <LawlineLogo />
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-            <span
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: '1.375rem',
-                fontWeight: 500,
-                letterSpacing: '-0.025em',
-                color: 'var(--color-ink)',
-                lineHeight: 1.1,
-              }}
-            >
-              Lawline
-            </span>
-            <span
-              style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.5rem',
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                color: 'var(--color-terracotta)',
-                lineHeight: 1,
-              }}
-            >
-              Legal AI
-            </span>
-          </div>
+        <Link href="/" style={{ textDecoration: 'none', flexShrink: 0 }}>
+          <LawlineLogo iconSize={36} variant="light" />
         </Link>
 
         {/* Desktop nav — pill style + Agents button */}
@@ -311,48 +278,3 @@ export function SiteNavbar() {
   )
 }
 
-/* ──────────────────────────────────────────────
-   LAWLINE LOGO — Clean "L" lettermark + AI node
-────────────────────────────────────────────── */
-function LawlineLogo() {
-  return (
-    <svg
-      width="36"
-      height="36"
-      viewBox="0 0 36 36"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-label="Lawline logo"
-    >
-      {/* Background */}
-      <rect width="36" height="36" rx="9" fill="#1C1B18" />
-      <rect width="36" height="36" rx="9" fill="url(#ll-bg)" opacity="0.45" />
-
-      {/* L letterform — vertical stroke */}
-      <rect x="10" y="8" width="5" height="19" rx="1.5" fill="#FDFCFA" opacity="0.92" />
-
-      {/* L letterform — horizontal base */}
-      <rect x="10" y="22" width="16" height="5" rx="1.5" fill="#FDFCFA" opacity="0.92" />
-
-      {/* AI accent — glowing node at top-right */}
-      <circle cx="27" cy="9" r="3.5" fill="#B8963E" opacity="0.9" />
-      <circle cx="27" cy="9" r="2"   fill="#D4AE58" />
-
-      {/* Neural thread — subtle dashed line from L-top to node */}
-      <line
-        x1="15" y1="10.5" x2="23.5" y2="9"
-        stroke="#D4AE58"
-        strokeWidth="0.75"
-        strokeDasharray="2 2"
-        opacity="0.5"
-      />
-
-      <defs>
-        <linearGradient id="ll-bg" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
-          <stop offset="0%"   stopColor="#B8963E" stopOpacity="0.30" />
-          <stop offset="100%" stopColor="#8B6E28" stopOpacity="0.15" />
-        </linearGradient>
-      </defs>
-    </svg>
-  )
-}

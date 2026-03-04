@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   GitBranch, FileText, MessageSquare, Stethoscope,
@@ -359,7 +360,9 @@ export function AgentHubDropdown({ open, onClose }: Props) {
             }}>
               All workflows run on-device · no data leaves your walls
             </span>
-            <button
+            <Link
+              href="/agents"
+              onClick={onClose}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -368,13 +371,11 @@ export function AgentHubDropdown({ open, onClose }: Props) {
                 fontSize: '0.75rem',
                 fontWeight: 500,
                 color: 'var(--color-terracotta)',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
+                textDecoration: 'none',
               }}
             >
-              View roadmap <ChevronRight size={12} />
-            </button>
+              View all agents <ChevronRight size={12} />
+            </Link>
           </div>
         </motion.div>
       )}

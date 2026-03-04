@@ -471,7 +471,7 @@ export default function AgentsPage() {
               padding: '0.35rem 0.875rem',
             }}>
               <Zap size={10} />
-              16 Agentic Legal Workflows
+              3 Core AI Agents · More Coming
             </span>
           </motion.div>
 
@@ -490,7 +490,7 @@ export default function AgentsPage() {
               marginBottom: '0.5rem',
             }}
           >
-            Your entire legal
+            Three agents.
           </motion.h1>
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
@@ -510,7 +510,7 @@ export default function AgentsPage() {
               marginBottom: '2rem',
             }}
           >
-            workflow, automated.
+            the full case workflow.
           </motion.h1>
 
           <motion.p
@@ -526,7 +526,8 @@ export default function AgentsPage() {
               lineHeight: 1.7,
             }}
           >
-            Every agent runs on your own hardware. No cloud. No subpoena risk.
+            Case Chronologist → Demand Letter Generator → Deposition Prep Kit.
+            From intake to trial — every document-heavy task handled in seconds.
             No data ever leaves your walls.
           </motion.p>
 
@@ -553,6 +554,104 @@ export default function AgentsPage() {
               </div>
             ))}
           </motion.div>
+        </div>
+      </section>
+
+      {/* ── Core 3 Agents ── */}
+      <section style={{ padding: '5rem 2rem', background: 'var(--color-parchment)' }}>
+        <div style={{ maxWidth: '72rem', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#B8963E', display: 'block', marginBottom: '0.75rem' }}>
+              Start here
+            </span>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.75rem, 3.5vw, 3rem)', fontWeight: 300, letterSpacing: '-0.03em', color: 'var(--color-ink)', lineHeight: 1.1 }}>
+              The three hardest jobs in litigation prep.<br />
+              <em style={{ fontStyle: 'italic', color: '#B8963E' }}>Now done in seconds.</em>
+            </h2>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            {[
+              {
+                num: '01', name: 'Case Chronologist', plan: 'Solo+', planColor: '#B8963E',
+                tagline: 'Upload 800 pages. Get a source-linked timeline in 42 seconds.',
+                reads: ['Medical records', 'Deposition transcripts', 'Police reports', 'Expert opinions', 'Insurance exhibits'],
+                outputs: ['Source-linked chronology', 'Treatment gap flags', 'Bates-cited timeline', 'Word / Excel / PDF export'],
+                before: '4–8 hrs paralegal', after: '42 seconds',
+                accentRgb: '184,150,62',
+              },
+              {
+                num: '02', name: 'Demand Letter Generator', plan: 'Team+', planColor: '#1A3A6B',
+                tagline: 'Timeline in → full demand letter out. Under 60 seconds.',
+                reads: ['Case timeline (Agent 01 output)', 'Medical billing invoices', 'Employment / lost wage records', 'Client intake form'],
+                outputs: ['Full demand letter draft', 'Itemized damages tally', 'Page-cited event references', 'Firm-voice formatting'],
+                before: '2–3 hrs drafting', after: '< 60 seconds',
+                accentRgb: '26,58,107',
+              },
+              {
+                num: '03', name: 'Deposition Prep Kit', plan: 'Firm', planColor: '#4A5578',
+                tagline: 'Cross-exam outline with page/line citations. 55 seconds.',
+                reads: ['Opposing witness transcript', 'Prior sworn statements', 'Expert reports', 'Case file context'],
+                outputs: ['Cross-examination outline', 'Inconsistency flags + quotes', 'Witness gap analysis', 'Page/line citations throughout'],
+                before: '10–20 hrs prep', after: '55 seconds',
+                accentRgb: '74,85,120',
+              },
+            ].map((agent, i) => (
+              <motion.div
+                key={agent.num}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                style={{ background: '#FFFFFF', border: '1px solid var(--color-warm-100)', borderRadius: 'var(--radius-xl)', padding: '2rem 2.5rem', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '2rem', alignItems: 'start' }}
+                className="grid-3col"
+              >
+                {/* Left: identity */}
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '2rem', fontWeight: 700, color: `rgba(${agent.accentRgb},0.15)`, lineHeight: 1 }}>{agent.num}</span>
+                    <div>
+                      <div style={{ fontFamily: 'var(--font-ui)', fontSize: '1.125rem', fontWeight: 600, color: 'var(--color-ink)', letterSpacing: '-0.02em' }}>{agent.name}</div>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'white', background: agent.planColor, padding: '0.2rem 0.5rem', borderRadius: '999px' }}>{agent.plan}</span>
+                    </div>
+                  </div>
+                  <p style={{ fontFamily: 'var(--font-ui)', fontSize: '0.9375rem', color: 'var(--color-muted)', lineHeight: 1.6, margin: '0 0 1.5rem' }}>{agent.tagline}</p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem', padding: '0.75rem 1rem', background: `rgba(${agent.accentRgb},0.05)`, borderRadius: 'var(--radius-md)', border: `1px solid rgba(${agent.accentRgb},0.12)` }}>
+                    <Clock size={12} style={{ color: `rgb(${agent.accentRgb})`, flexShrink: 0 }} />
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', color: 'var(--color-faint)', textDecoration: 'line-through' }}>{agent.before}</span>
+                    <ArrowRight size={10} style={{ color: 'var(--color-faint)' }} />
+                    <span style={{ fontFamily: 'var(--font-ui)', fontSize: '0.875rem', fontWeight: 700, color: `rgb(${agent.accentRgb})` }}>{agent.after}</span>
+                  </div>
+                </div>
+
+                {/* Middle: reads */}
+                <div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--color-faint)', marginBottom: '0.75rem' }}>Reads</div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                    {agent.reads.map(r => (
+                      <div key={r} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontFamily: 'var(--font-ui)', fontSize: '0.875rem', color: 'var(--color-muted)' }}>
+                        <div style={{ width: 5, height: 5, borderRadius: '50%', background: `rgba(${agent.accentRgb},0.4)`, flexShrink: 0 }} />
+                        {r}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Right: outputs */}
+                <div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5625rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--color-faint)', marginBottom: '0.75rem' }}>Outputs</div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                    {agent.outputs.map(o => (
+                      <div key={o} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontFamily: 'var(--font-ui)', fontSize: '0.875rem', color: 'var(--color-ink)' }}>
+                        <Check size={12} style={{ color: `rgb(${agent.accentRgb})`, flexShrink: 0 }} />
+                        {o}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -587,7 +686,7 @@ export default function AgentsPage() {
         }}>
           <Server size={13} style={{ color: '#B8963E' }} />
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6875rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(253,252,250,0.55)' }}>
-            All 16 agents run on-device · no data leaves your walls
+            All agents run on-device · no data leaves your walls
           </span>
         </div>
         <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.875rem', color: 'rgba(253,252,250,0.35)', maxWidth: '36rem', margin: '0 auto' }}>

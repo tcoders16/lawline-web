@@ -13,7 +13,6 @@ const ANNOUNCEMENT_BAR_HEIGHT = 40 /* px — matches the bar's rendered height *
 
 const NAV_LINKS = [
   { label: 'Home',     href: '/' },
-  { label: 'Agents',   href: '/agents' },
   { label: 'Pricing',  href: '/pricing' },
   { label: 'Insights', href: '/insights' },
 ] as const

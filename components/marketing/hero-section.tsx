@@ -54,13 +54,13 @@ export function HeroSection() {
 
   return (
     <section
+      className="hero-section-pad"
       style={{
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '8rem 2rem 5rem',
         position: 'relative',
         overflow: 'hidden',
         background: 'var(--color-parchment)',
@@ -78,6 +78,7 @@ export function HeroSection() {
           position: 'relative',
           zIndex: 10,
           maxWidth: '68rem',
+          width: '100%',
           margin: '0 auto',
           display: 'flex',
           flexDirection: 'column',
@@ -266,6 +267,7 @@ export function HeroSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.7 }}
+          className="trust-signals"
           style={{
             display: 'flex',
             flexWrap: 'wrap',

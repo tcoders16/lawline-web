@@ -96,7 +96,7 @@ export function StickyCtaBar() {
               }}>
                 42 seconds per case file
               </div>
-              <div style={{
+              <div className="sticky-sub-label" style={{
                 fontFamily:    'var(--font-mono)',
                 fontSize:      '0.5625rem',
                 letterSpacing: '0.09em',

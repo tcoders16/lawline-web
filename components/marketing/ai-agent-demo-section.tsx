@@ -337,6 +337,7 @@ export function AiAgentDemoSection() {
             gridTemplateColumns: 'minmax(0, 1.1fr) minmax(0, 0.9fr)',
             gap: '2rem',
             alignItems: 'start',
+            /* mobile: grid-agent-demo in globals.css collapses to 1fr */
           }}
         >
           {/* Left: live agent pipeline */}

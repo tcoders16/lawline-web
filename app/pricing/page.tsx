@@ -272,7 +272,7 @@ export default function PricingPage() {
                   </p>
 
                   {/* Reads → Outputs */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                  <div className="grid-2col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                     <div>
                       <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--color-faint)', marginBottom: '0.5rem' }}>Reads</div>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>

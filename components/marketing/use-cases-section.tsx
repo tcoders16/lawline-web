@@ -279,6 +279,7 @@ export function UseCasesSection() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.3, ease: [0.19, 1, 0.22, 1] }}
+            className="grid-use-cases"
             style={{
               display: 'grid',
               gridTemplateColumns: '1fr 1fr',

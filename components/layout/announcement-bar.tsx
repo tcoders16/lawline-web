@@ -16,6 +16,7 @@ export function AnnouncementBar() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -40 }}
           transition={{ duration: 0.4, ease: [0.19, 1, 0.22, 1] }}
+          className="announcement-inner"
           style={{
             position: 'fixed',
             top: 0,
@@ -48,7 +49,7 @@ export function AnnouncementBar() {
 
           <Sparkles size={12} style={{ color: '#B8963E', flexShrink: 0 }} />
 
-          <span style={{
+          <span className="announcement-text" style={{
             fontFamily: 'var(--font-body)',
             fontSize: '0.8125rem',
             color: 'rgba(253,252,250,0.85)',

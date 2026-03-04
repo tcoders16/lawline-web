@@ -291,6 +291,7 @@ export function FeaturesSection() {
           initial={{ opacity: 0, y: 16 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.5 }}
+          className="replaces-strip"
           style={{
             marginTop: '2.5rem',
             paddingTop: '2rem',
@@ -311,6 +312,7 @@ export function FeaturesSection() {
           ].map(({ before, after }, i) => (
             <div
               key={before}
+              className="replaces-strip-item"
               style={{
                 flex: '1 1 220px',
                 padding: '1rem 1.375rem',

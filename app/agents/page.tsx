@@ -603,7 +603,7 @@ export default function AgentsPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                style={{ background: '#FFFFFF', border: '1px solid var(--color-warm-100)', borderRadius: 'var(--radius-xl)', padding: '2rem 2.5rem', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '2rem', alignItems: 'start' }}
+                style={{ background: '#FFFFFF', border: '1px solid var(--color-warm-100)', borderRadius: 'var(--radius-xl)', padding: '2rem 2.5rem', display: 'grid', gap: '2rem', alignItems: 'start' }}
                 className="grid-3col"
               >
                 {/* Left: identity */}

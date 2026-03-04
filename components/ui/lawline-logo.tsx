@@ -104,33 +104,18 @@ export function LawlineLogo({ iconSize = 36, variant = 'light', className }: Log
       className={className}
     >
       <LawlineIcon size={iconSize} />
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 0, lineHeight: 1 }}>
-        <span
-          style={{
-            fontFamily:    'var(--font-display)',
-            fontSize:      '1.375rem',
-            fontWeight:    500,
-            letterSpacing: '-0.025em',
-            color:         inkColor,
-            lineHeight:    1.1,
-          }}
-        >
-          Lawline
-        </span>
-        <span
-          style={{
-            fontFamily:    'var(--font-mono)',
-            fontSize:      '0.5rem',
-            letterSpacing: '0.15em',
-            textTransform: 'uppercase',
-            color:         subColor,
-            lineHeight:    1,
-            marginTop:     '0.1rem',
-          }}
-        >
-          Legal AI
-        </span>
-      </div>
+      <span
+        style={{
+          fontFamily:    'var(--font-display)',
+          fontSize:      '1.375rem',
+          fontWeight:    500,
+          letterSpacing: '-0.025em',
+          color:         inkColor,
+          lineHeight:    1.1,
+        }}
+      >
+        Lawline
+      </span>
     </div>
   )
 }

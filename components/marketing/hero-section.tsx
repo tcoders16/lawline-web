@@ -535,58 +535,48 @@ function FloatingCards() {
 function CasePreviewWidget() {
   const events = [
     {
-      date: 'Jan 12, 2024',
-      time: '9:14 AM',
-      label: 'Contract executed — Unit 4B lease agreement signed by both parties',
-      type: 'contract' as const,
-      source: 'Lease_Agreement.pdf · p.1',
-      ai: false,
+      date: 'Jan 14, 2024',
+      label: 'Rear-end collision — I-280 northbound, reported at scene',
+      type: 'incident' as const,
+      source: 'Police_Report_2024-014.pdf · p.2',
       flag: null,
     },
     {
-      date: 'Mar 3, 2024',
-      time: '2:31 PM',
-      label: 'First noise complaint filed by tenant — written notice to landlord',
-      type: 'issue' as const,
-      source: 'Tenant_Complaint_001.pdf · p.2',
-      ai: true,
+      date: 'Jan 14, 2024',
+      label: 'ER admission — Memorial Hospital · Dx: L4-L5 disc herniation',
+      type: 'medical' as const,
+      source: 'ER_Records_Memorial.pdf · p.7',
       flag: null,
     },
     {
-      date: 'Apr 17, 2024',
-      time: '10:05 AM',
-      label: '30-day cure notice issued by landlord via certified mail',
-      type: 'notice' as const,
-      source: 'Landlord_Notice_Apr.pdf · p.1',
-      ai: true,
-      flag: '⚠ Tenant claims non-receipt — dispute flagged',
+      date: 'Jan–Jul 2024',
+      label: '6-month treatment gap — no documented follow-up care',
+      type: 'flag' as const,
+      source: 'AI analysis across 14 records',
+      flag: 'IME will argue gap breaks causation chain',
     },
     {
-      date: 'Jun 2, 2024',
-      time: '3:00 PM',
-      label: 'Mediation session attempted — no resolution reached',
-      type: 'event' as const,
-      source: 'Mediation_Notes.docx · p.4',
-      ai: false,
+      date: 'Oct 3, 2024',
+      label: 'IME by Dr. Chen — disputes surgery necessity, cites gap',
+      type: 'dispute' as const,
+      source: 'IME_Report_Chen.pdf · p.12',
       flag: null,
     },
     {
-      date: 'Jul 29, 2024',
-      time: '8:47 AM',
-      label: 'Lawsuit filed — Case #24-CV-8821 · Santa Clara Superior Court',
+      date: 'Dec 2, 2024',
+      label: 'Demand filed — $284,000 · Santa Clara Superior Court',
       type: 'milestone' as const,
-      source: 'Complaint_Filed.pdf · p.1',
-      ai: true,
+      source: 'Demand_Letter_Final.pdf · p.1',
       flag: null,
     },
   ]
 
-  const typeConfig = {
-    contract:  { color: '#1A3A6B', bar: '#1A3A6B', bg: 'rgba(26,58,107,0.08)',   label: 'Contract'  },
-    issue:     { color: '#B8963E', bar: '#B8963E', bg: 'rgba(184,150,62,0.10)',  label: 'Issue'     },
-    notice:    { color: '#4A52A0', bar: '#4A52A0', bg: 'rgba(74,82,160,0.09)',   label: 'Notice'    },
-    event:     { color: '#4A5578', bar: '#C5CADE', bg: 'rgba(74,85,120,0.06)',   label: 'Event'     },
-    milestone: { color: '#0A1020', bar: '#0A1020', bg: 'rgba(10,16,32,0.07)',    label: 'Milestone' },
+  const TYPE = {
+    incident:  { dot: '#1A3A6B', badge: '#1A3A6B', bg: 'rgba(26,58,107,0.08)',   label: 'Incident'  },
+    medical:   { dot: '#2D6B31', badge: '#2D6B31', bg: 'rgba(45,107,49,0.08)',   label: 'Medical'   },
+    flag:      { dot: '#B8963E', badge: '#B8963E', bg: 'rgba(184,150,62,0.10)',  label: '⚠ Flag'    },
+    dispute:   { dot: '#4A52A0', badge: '#4A52A0', bg: 'rgba(74,82,160,0.09)',   label: 'Dispute'   },
+    milestone: { dot: '#0A1020', badge: '#0A1020', bg: 'rgba(10,16,32,0.07)',    label: 'Milestone' },
   } as const
 
   return (
@@ -596,193 +586,161 @@ function CasePreviewWidget() {
       borderRadius: 'var(--radius-xl)',
       overflow: 'hidden',
       boxShadow: '0 32px 72px rgba(10,16,32,0.13), 0 4px 20px rgba(10,16,32,0.07)',
-      position: 'relative',
     }}>
       {/* ── Window chrome ── */}
       <div style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '0.75rem 1.125rem',
+        padding: '0.625rem 1rem',
         background: '#0D1729',
-        borderBottom: '1px solid rgba(255,255,255,0.07)',
+        borderBottom: '1px solid rgba(255,255,255,0.06)',
       }}>
-        <div style={{ display: 'flex', gap: '0.35rem' }}>
+        <div style={{ display: 'flex', gap: '0.3rem' }}>
           {['#FF6058', '#FFBD2E', '#28CA42'].map(c => (
-            <div key={c} style={{ width: 9, height: 9, borderRadius: '50%', background: c }} />
+            <div key={c} style={{ width: 8, height: 8, borderRadius: '50%', background: c, opacity: 0.9 }} />
           ))}
         </div>
         <span style={{
-          fontFamily: 'var(--font-mono)', fontSize: '0.5rem',
+          fontFamily: 'var(--font-mono)', fontSize: '0.4375rem',
           letterSpacing: '0.14em', textTransform: 'uppercase',
-          color: 'rgba(253,252,250,0.35)',
+          color: 'rgba(253,252,250,0.3)',
         }}>
           Lawline · Case Intelligence
         </span>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-          <span style={{
-            display: 'inline-block', width: 6, height: 6, borderRadius: '50%',
-            background: '#4ADE80', boxShadow: '0 0 8px rgba(74,222,128,0.7)',
-          }} />
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.4375rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#4ADE80' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+          <motion.div
+            animate={{ opacity: [1, 0.3, 1] }}
+            transition={{ duration: 1.8, repeat: Infinity }}
+            style={{ width: 6, height: 6, borderRadius: '50%', background: '#4ADE80', boxShadow: '0 0 6px rgba(74,222,128,0.8)' }}
+          />
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.375rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#4ADE80' }}>
             Live
           </span>
         </div>
       </div>
 
-      {/* ── AI status bar ── */}
-      <div style={{
-        display: 'flex', alignItems: 'center', gap: '0.625rem',
-        padding: '0.5rem 1.125rem',
-        background: 'rgba(26,58,107,0.04)',
-        borderBottom: '1px solid rgba(26,58,107,0.09)',
-      }}>
-        <Cpu size={10} style={{ color: '#1A3A6B', flexShrink: 0 }} />
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#1A3A6B' }}>
-          AI extracting events from 3 documents
-        </span>
-        <div style={{ flex: 1, height: 2.5, background: 'rgba(26,58,107,0.10)', borderRadius: 2, overflow: 'hidden' }}>
+      {/* ── Scan progress bar ── */}
+      <div style={{ background: '#0A1020', padding: '0.5rem 1rem', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.3rem' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.4375rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(212,174,88,0.8)' }}>
+            ⚡ AI extracting from 847 pages · 6 documents
+          </span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.4375rem', color: 'rgba(74,222,128,0.7)', letterSpacing: '0.06em' }}>42s</span>
+        </div>
+        <div style={{ height: 3, background: 'rgba(255,255,255,0.06)', borderRadius: 2, overflow: 'hidden' }}>
           <motion.div
             initial={{ width: '0%' }}
-            animate={{ width: '82%' }}
-            transition={{ duration: 2.2, delay: 1, ease: 'easeOut' }}
-            style={{ height: '100%', background: 'linear-gradient(90deg, #1A3A6B, #2456A4)', borderRadius: 2 }}
+            animate={{ width: '100%' }}
+            transition={{ duration: 2.4, delay: 0.6, ease: 'easeOut' }}
+            style={{ height: '100%', background: 'linear-gradient(90deg, #1A3A6B 0%, #B8963E 60%, #4ADE80 100%)', borderRadius: 2 }}
           />
         </div>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.4375rem', color: 'rgba(26,58,107,0.55)', whiteSpace: 'nowrap' }}>
-          8.2s
-        </span>
       </div>
 
-      {/* ── Category tab strip ── */}
+      {/* ── Damages callout strip ── */}
       <div style={{
-        display: 'flex', alignItems: 'center', gap: 0,
-        padding: '0 1.125rem',
-        borderBottom: '1px solid var(--color-warm-100)',
-        background: '#FAFBFE',
-        overflowX: 'auto',
+        display: 'grid', gridTemplateColumns: '1fr 1fr 1fr',
+        background: '#F6F7FA',
+        borderBottom: '1px solid #E2E5EF',
       }}>
-        {(['All', 'Contract', 'Issue', 'Notice', 'Milestone'] as const).map((tab, i) => (
-          <div key={tab} style={{
-            fontFamily: 'var(--font-mono)', fontSize: '0.4375rem',
-            letterSpacing: '0.08em', textTransform: 'uppercase',
-            color: i === 0 ? '#1A3A6B' : 'var(--color-faint)',
-            padding: '0.5rem 0.75rem',
-            borderBottom: i === 0 ? '2px solid #1A3A6B' : '2px solid transparent',
-            whiteSpace: 'nowrap', cursor: 'pointer',
-          }}>
-            {tab}
+        {[
+          { val: '$284,000', sub: 'Damages extracted', accent: '#1A3A6B' },
+          { val: '42 events', sub: 'Source-linked', accent: '#2D6B31' },
+          { val: '3 flags', sub: 'Need review', accent: '#B8963E' },
+        ].map(({ val, sub, accent }) => (
+          <div key={val} style={{ padding: '0.5rem 0.875rem', borderRight: '1px solid #E2E5EF' }}>
+            <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.8125rem', fontWeight: 600, color: accent, letterSpacing: '-0.01em' }}>{val}</div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.375rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--color-faint)', marginTop: '0.1rem' }}>{sub}</div>
           </div>
         ))}
-        <div style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: '0.4375rem', color: 'var(--color-faint)', letterSpacing: '0.06em', whiteSpace: 'nowrap', padding: '0.5rem 0' }}>
-          5 events · 3 docs
-        </div>
       </div>
 
-      {/* ── Timeline events ── */}
-      <div style={{ padding: '0.875rem 0' }}>
-        {events.map(({ date, time, label, type, source, ai, flag }, i) => {
-          const cfg = typeConfig[type]
+      {/* ── Timeline ── */}
+      <div style={{ padding: '0.875rem 1rem 0.625rem' }}>
+        {events.map(({ date, label, type, source, flag }, i) => {
+          const cfg = TYPE[type]
+          const isLast = i === events.length - 1
           return (
             <motion.div
               key={i}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 1 + i * 0.13, duration: 0.35 }}
-              style={{
-                display: 'flex',
-                gap: 0,
-                position: 'relative',
-                borderLeft: `3px solid ${cfg.bar}`,
-                marginLeft: '1.125rem',
-                marginBottom: i < events.length - 1 ? '0.125rem' : 0,
-                background: 'transparent',
-                transition: 'background 0.15s ease',
-              }}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.2 + i * 0.15, duration: 0.4, ease: [0.19, 1, 0.22, 1] }}
+              style={{ display: 'flex', gap: '0.625rem', position: 'relative' }}
             >
-              {/* Vertical connector */}
-              {i < events.length - 1 && (
+              {/* Left: dot + connector line */}
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0, paddingTop: '0.25rem' }}>
                 <div style={{
-                  position: 'absolute',
-                  left: -1,
-                  top: '100%',
-                  width: 1,
-                  height: '0.125rem',
-                  background: 'var(--color-warm-100)',
+                  width: 10, height: 10, borderRadius: '50%',
+                  background: cfg.dot,
+                  border: `2px solid ${cfg.dot}`,
+                  boxShadow: type === 'flag' ? `0 0 8px ${cfg.dot}60` : 'none',
+                  flexShrink: 0,
+                  zIndex: 1,
                 }} />
-              )}
+                {!isLast && (
+                  <div style={{ width: 1.5, flex: 1, minHeight: 16, background: 'linear-gradient(to bottom, #E2E5EF, #E2E5EF)', marginTop: 2 }} />
+                )}
+              </div>
 
-              <div style={{ padding: '0.625rem 0.875rem 0.625rem 0.75rem', flex: 1 }}>
-                {/* Top row: date + type badge + source */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem', flexWrap: 'wrap' }}>
-                  <span style={{
-                    fontFamily: 'var(--font-mono)', fontSize: '0.5rem',
-                    color: 'var(--color-faint)', letterSpacing: '0.06em', whiteSpace: 'nowrap',
-                  }}>
+              {/* Right: content */}
+              <div style={{ flex: 1, paddingBottom: isLast ? 0 : '0.625rem' }}>
+                {/* Date + badge row */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.2rem', flexWrap: 'wrap' }}>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.4375rem', color: 'var(--color-faint)', letterSpacing: '0.07em', whiteSpace: 'nowrap' }}>
                     {date}
                   </span>
                   <span style={{
                     fontFamily: 'var(--font-mono)', fontSize: '0.375rem',
-                    color: 'rgba(136,144,168,0.6)', letterSpacing: '0.04em',
-                  }}>
-                    {time}
-                  </span>
-                  <span style={{
-                    fontFamily: 'var(--font-mono)', fontSize: '0.375rem',
                     letterSpacing: '0.08em', textTransform: 'uppercase',
-                    color: cfg.color, background: cfg.bg,
-                    border: `1px solid ${cfg.color}22`,
-                    padding: '0.1rem 0.4rem', borderRadius: 'var(--radius-pill)',
+                    color: cfg.badge, background: cfg.bg,
+                    border: `1px solid ${cfg.badge}25`,
+                    padding: '0.075rem 0.375rem', borderRadius: 'var(--radius-pill)',
+                    whiteSpace: 'nowrap',
                   }}>
                     {cfg.label}
                   </span>
-                  {ai && (
-                    <span style={{
-                      fontFamily: 'var(--font-mono)', fontSize: '0.375rem',
-                      letterSpacing: '0.08em', textTransform: 'uppercase',
-                      color: '#1A3A6B', background: 'rgba(26,58,107,0.07)',
-                      border: '1px solid rgba(26,58,107,0.18)',
-                      padding: '0.1rem 0.4rem', borderRadius: 'var(--radius-pill)',
-                    }}>
-                      AI
-                    </span>
-                  )}
                 </div>
 
-                {/* Event label */}
+                {/* Event description */}
                 <p style={{
-                  fontFamily: 'var(--font-body)', fontSize: '0.8rem',
-                  color: 'var(--color-ink)', lineHeight: 1.45,
-                  margin: '0 0 0.25rem',
-                  fontWeight: type === 'milestone' ? 500 : 400,
+                  fontFamily: 'var(--font-body)', fontSize: '0.78rem',
+                  color: type === 'milestone' ? 'var(--color-ink)' : type === 'flag' ? '#8B6E28' : 'var(--color-ink)',
+                  fontWeight: type === 'milestone' ? 600 : 400,
+                  lineHeight: 1.4, margin: '0 0 0.2rem',
                 }}>
                   {label}
                 </p>
 
-                {/* Source cite */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
-                  <span style={{
-                    fontFamily: 'var(--font-mono)', fontSize: '0.4375rem',
-                    color: 'var(--color-faint)', letterSpacing: '0.05em',
-                    background: 'var(--color-cream)',
-                    border: '1px solid var(--color-warm-100)',
-                    padding: '0.1rem 0.4rem', borderRadius: '3px',
-                  }}>
-                    ↗ {source}
-                  </span>
-                </div>
+                {/* Source citation */}
+                <span style={{
+                  fontFamily: 'var(--font-mono)', fontSize: '0.375rem',
+                  color: 'var(--color-faint)', letterSpacing: '0.05em',
+                  background: 'var(--color-cream)',
+                  border: '1px solid var(--color-warm-100)',
+                  padding: '0.075rem 0.375rem', borderRadius: '3px',
+                  display: 'inline-block',
+                }}>
+                  ↗ {source}
+                </span>
 
-                {/* Flag (inconsistency warning) */}
+                {/* AI flag detail */}
                 {flag && (
-                  <div style={{
-                    marginTop: '0.375rem',
-                    display: 'inline-flex', alignItems: 'center', gap: '0.3rem',
-                    fontFamily: 'var(--font-mono)', fontSize: '0.4375rem',
-                    letterSpacing: '0.05em', color: '#B8963E',
-                    background: 'rgba(184,150,62,0.07)',
-                    border: '1px solid rgba(184,150,62,0.22)',
-                    padding: '0.2rem 0.5rem', borderRadius: 'var(--radius-sm)',
-                  }}>
-                    {flag}
-                  </div>
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    transition={{ delay: 1.2 + i * 0.15 + 0.2 }}
+                    style={{
+                      marginTop: '0.3rem',
+                      display: 'inline-flex', alignItems: 'center', gap: '0.25rem',
+                      fontFamily: 'var(--font-mono)', fontSize: '0.4rem',
+                      letterSpacing: '0.05em', color: '#8B6E28',
+                      background: 'rgba(184,150,62,0.08)',
+                      border: '1px solid rgba(184,150,62,0.25)',
+                      padding: '0.175rem 0.5rem', borderRadius: '3px',
+                    }}
+                  >
+                    ⚠ {flag}
+                  </motion.div>
                 )}
               </div>
             </motion.div>
@@ -792,31 +750,34 @@ function CasePreviewWidget() {
 
       {/* ── Footer ── */}
       <div style={{
-        padding: '0.625rem 1.125rem',
+        padding: '0.5rem 1rem',
         background: '#F6F7FA',
         borderTop: '1px solid #E2E5EF',
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
       }}>
-        <div style={{ display: 'flex', gap: '0.875rem', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
           {[
-            { dot: '#1A3A6B', label: '3 docs parsed' },
-            { dot: '#B8963E', label: '1 flag' },
+            { dot: '#1A3A6B', label: '6 docs parsed' },
+            { dot: '#B8963E', label: '3 flags' },
           ].map(({ dot, label }) => (
-            <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+            <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '0.275rem' }}>
               <div style={{ width: 5, height: 5, borderRadius: '50%', background: dot }} />
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.4375rem', color: 'var(--color-faint)', letterSpacing: '0.06em' }}>
-                {label}
-              </span>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.375rem', color: 'var(--color-faint)', letterSpacing: '0.06em' }}>{label}</span>
             </div>
           ))}
         </div>
-        <span style={{
-          display: 'flex', alignItems: 'center', gap: '0.25rem',
-          fontFamily: 'var(--font-mono)', fontSize: '0.4375rem',
-          color: '#2D6B31', letterSpacing: '0.06em',
-        }}>
-          <span style={{ fontSize: '0.625rem' }}>✓</span> Ready for export
-        </span>
+        <motion.span
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 3.2 }}
+          style={{
+            display: 'flex', alignItems: 'center', gap: '0.25rem',
+            fontFamily: 'var(--font-mono)', fontSize: '0.375rem',
+            color: '#2D6B31', letterSpacing: '0.06em',
+          }}
+        >
+          <span style={{ fontSize: '0.5625rem' }}>✓</span> Ready for export
+        </motion.span>
       </div>
     </div>
   )

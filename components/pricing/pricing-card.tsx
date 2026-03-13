@@ -19,7 +19,7 @@ export function PricingCard({ plan, priceId, trialDays, onCheckout }: Props) {
 
   const handleClick = async () => {
     if (isEnterprise) {
-      window.location.href = 'mailto:hello@lawline.ai?subject=Enterprise Inquiry'
+      window.location.href = 'mailto:enterprise@lawline.tech?subject=Enterprise%20Server%20Inquiry'
       return
     }
     if (!priceId) return
@@ -66,6 +66,8 @@ export function PricingCard({ plan, priceId, trialDays, onCheckout }: Props) {
         display: 'flex',
         flexDirection: 'column',
         gap: '0',
+        height: '100%',
+        boxSizing: 'border-box',
       }}
     >
       {/* Featured badge */}

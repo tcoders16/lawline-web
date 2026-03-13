@@ -1,4 +1,4 @@
-export type BillingTier = 'solo' | 'team' | 'firm' | 'enterprise'
+export type BillingTier = 'macos' | 'enterprise'
 export type BillingMode  = 'subscription' | 'payment'
 
 export type PricingPlan = {
@@ -6,7 +6,7 @@ export type PricingPlan = {
   name:        string
   tagline:     string
   price:       number | null    // null = custom
-  priceKey:    'solo' | 'team' | 'firm' | null
+  priceKey:    'macos' | null
   billingMode: BillingMode
   trialDays:   number | null
   featured:    boolean
@@ -16,10 +16,10 @@ export type PricingPlan = {
 }
 
 export type CheckoutPayload = {
-  priceId:       string
-  mode:          BillingMode
-  trialDays?:    number
-  successUrl?:   string
-  cancelUrl?:    string
+  priceId:        string
+  mode:           BillingMode
+  trialDays?:     number
+  successUrl?:    string
+  cancelUrl?:     string
   customerEmail?: string
 }

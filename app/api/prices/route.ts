@@ -2,37 +2,36 @@ import { NextResponse } from 'next/server'
 import { getStripeServer, STRIPE_PRICE_IDS, TRIAL_DAYS } from '@/lib/stripe-server'
 
 export async function GET() {
+  // No Stripe key — return defaults so the UI still renders
   if (!process.env.STRIPE_SECRET_KEY) {
     return NextResponse.json({
       ok: true,
-      data: { solo: '', team: '', firm: '', dmg: '', trialDays: TRIAL_DAYS, amounts: {} },
+      data: {
+        macos: STRIPE_PRICE_IDS.macos,
+        trialDays: { macos: TRIAL_DAYS.macos },
+        amounts: {},
+      },
     })
   }
 
   try {
     const stripe = getStripeServer()
-    const priceIds = Object.entries(STRIPE_PRICE_IDS).filter(([, id]) => id)
-
     const amounts: Record<string, number> = {}
 
-    if (priceIds.length > 0) {
-      await Promise.all(
-        priceIds.map(async ([, id]) => {
-          try {
-            const price = await stripe.prices.retrieve(id)
-            amounts[id] = price.unit_amount ?? 0
-          } catch {
-            // Price not found in Stripe — use placeholder
-          }
-        })
-      )
+    if (STRIPE_PRICE_IDS.macos) {
+      try {
+        const price = await stripe.prices.retrieve(STRIPE_PRICE_IDS.macos)
+        amounts[STRIPE_PRICE_IDS.macos] = price.unit_amount ?? 0
+      } catch {
+        // Price not found in Stripe — skip
+      }
     }
 
     return NextResponse.json({
       ok: true,
       data: {
-        ...STRIPE_PRICE_IDS,
-        trialDays: TRIAL_DAYS,
+        macos:     STRIPE_PRICE_IDS.macos,
+        trialDays: { macos: TRIAL_DAYS.macos },
         amounts,
       },
     })

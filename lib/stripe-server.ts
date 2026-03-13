@@ -16,15 +16,15 @@ export function getStripeServer(): Stripe {
 // Convenience alias for use in route handlers
 export { getStripeServer as stripe }
 
+/**
+ * Price IDs — set STRIPE_PRICE_MACOS to the recurring price you
+ * created in the Stripe Dashboard ($99 / month, USD).
+ */
 export const STRIPE_PRICE_IDS = {
-  get solo() { return process.env.STRIPE_PRICE_SOLO ?? '' },
-  get team() { return process.env.STRIPE_PRICE_TEAM ?? '' },
-  get firm() { return process.env.STRIPE_PRICE_FIRM ?? '' },
-  get dmg()  { return process.env.STRIPE_PRICE_DMG  ?? '' },
+  get macos() { return process.env.STRIPE_PRICE_MACOS ?? '' },
 }
 
+/** Trial period in days (default 14). Override via STRIPE_TRIAL_DAYS_MACOS. */
 export const TRIAL_DAYS = {
-  get solo() { return Number(process.env.STRIPE_TRIAL_DAYS_SOLO ?? 30) },
-  get team() { return Number(process.env.STRIPE_TRIAL_DAYS_TEAM ?? 14) },
-  get firm() { return Number(process.env.STRIPE_TRIAL_DAYS_FIRM ?? 14) },
+  get macos() { return Number(process.env.STRIPE_TRIAL_DAYS_MACOS ?? 14) },
 }

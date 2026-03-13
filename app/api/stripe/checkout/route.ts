@@ -33,11 +33,12 @@ export async function POST(req: NextRequest) {
       mode,
       line_items: [{ price: priceId, quantity }],
       success_url: successUrl ?? `${appUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url:  cancelUrl  ?? `${appUrl}/checkout/cancel`,
+      cancel_url:  cancelUrl  ?? `${appUrl}/pricing`,
       ...(customerEmail ? { customer_email: customerEmail } : {}),
       ...(mode === 'subscription' && trialDays
-        ? { subscription_data: { trial_period_days: trialDays } }
+        ? { subscription_data: { trial_period_days: trialDays, metadata: { plan: 'macos' } } }
         : {}),
+      metadata: { plan: 'macos', source: 'lawline_web' },
       allow_promotion_codes: true,
       billing_address_collection: 'auto',
     })

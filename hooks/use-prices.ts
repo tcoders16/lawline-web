@@ -3,12 +3,9 @@
 import { useState, useEffect } from 'react'
 
 export type PriceData = {
-  solo: string
-  team: string
-  firm: string
-  dmg: string
-  trialDays: { solo: number; team: number; firm: number }
-  amounts: Record<string, number>
+  macos:     string                 // Stripe price ID for the macOS plan
+  trialDays: { macos: number }
+  amounts:   Record<string, number> // unit_amount in cents, keyed by price ID
 }
 
 export function usePrices() {
